@@ -1,12 +1,19 @@
+button {
+    display: block;
+    margin: 40px auto;
+    font-family: sans-serif;
+    font-size: 20px;
+    padding: 5px 20px;
+}
+
 .gridContainer {
-    width: calc(16 * 50px);
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template: repeat(16, 50px) / repeat(16, 50px);
+    justify-content: center;
 }
 
 .square {
-    width: 50px;
-    height: 50px;
+   
     border: 1px solid black;
     box-sizing: border-box;
 }
