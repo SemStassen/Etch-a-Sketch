@@ -4,25 +4,31 @@ const resizeButton = document.querySelector('button')
 resizeButton.addEventListener('click', resizeGrid)
 
 
-//create starting grid
+//create starting grid when page first loads
 createGrid(20);
 
-//creating square grid
-function createGrid(size) {
-    for (let x = 0; x < size; x++) {
-        for (let y = 0; y < size; y++) {
+//create square grid
+function createGrid(SquaresPerSide) {
+
+    gridContainer.style.gridTemplate = `repeat(${SquaresPerSide}, 1fr) / repeat(${SquaresPerSide}, 1fr)`
+
+
+    for (let x = 0; x < SquaresPerSide; x++) {
+        for (let y = 0; y < SquaresPerSide; y++) {
             squareDiv = document.createElement('div');
             squareDiv.classList.add('square');
+            squareDiv.dataset.darkness = 110
             gridContainer.appendChild(squareDiv);
         }
     }
 
-    // hover effect on squares
+    // add eventlisteners for hover
     const squares = document.querySelectorAll('.square');
 
     squares.forEach(function (square) {
-        square.addEventListener('mouseenter', squareHover);
-    })
+       square.addEventListener('mouseenter', squareHoverBackground, {once: true});
+        square.addEventListener('mouseenter', squareHoverDarken);        
+})
 }
 
 function resetGrid() {
@@ -72,6 +78,20 @@ function numberCheck(number) {
     return number;
 }
 
-function squareHover() {
-    this.style.backgroundColor = '#ff5566';
+//generate a random background once
+function squareHoverBackground() {
+        let r = Math.floor(Math.random() * 255);
+        let g = Math.floor(Math.random() * 255);
+        let b = Math.floor(Math.random() * 255);
+        this.style.background = `rgb(${r}, ${g}, ${b})`;      
+}
+
+
+function squareHoverDarken() {
+    amountOfDark = this.dataset.darkness;
+    if (amountOfDark > 0) {
+    amountOfDark -= 10;
+    this.style.filter = `brightness(${amountOfDark}%)`
+    this.dataset.darkness = amountOfDark;
+    }
 }
